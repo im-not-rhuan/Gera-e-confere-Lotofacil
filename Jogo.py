@@ -27,19 +27,19 @@ class Jogo:
         return self.n_games*2.5  #retorna o valor gasto nas apostas
     
     def confere(self, jogo):
-        r = requests.get('https://loteriascaixa-api.herokuapp.com/api/lotofacil/latest')
-        if r.status_code  == 200:
-            r1 = r.json()
-            resultado = r1['dezenas']
-            r_to_int = []
+        r = requests.get('https://loteriascaixa-api.herokuapp.com/api/lotofacil/latest')  #requisição para obter o ultimo resultado da lotofacil
+        if r.status_code  == 200:  #resposta 200 significa que foi feita com sucesso
+            r1 = r.json()  #pega o conteudo da requisição no formado json
+            resultado = r1['dezenas']  #o resultado está na na chave dezenas do json
+            r_to_int = []  #lista para converter para inteiro, pois vem como string
             for cast in resultado:
                 cast = int(cast)
                 r_to_int.append(cast)
             print("Resultado:")
             print(r_to_int)
-            losses = 0
-            wins = 0
-            for confere in jogo:
+            losses = 0  #contador de jogos perdidos
+            wins = 0  #contador de jogos premiados
+            for confere in jogo:  #abaixo se confere o jogo apostado com o resultado oficial
                 if(len(set(r_to_int) & set(confere)) == 15):
                     print(f"Você ganhou o prêmio máximo! O jogo campeão foi o {confere}")
                     wins +=1
